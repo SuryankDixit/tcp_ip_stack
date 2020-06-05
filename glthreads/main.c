@@ -63,9 +63,19 @@ int main(int argc, char **argv)
 	
 	student *s=NULL;
 	//ITERATE_LIST(list_ptr,student,s)
+	ITERATE_GL_THREADS_BEGIN(list_ptr, student, s){
+
+        print_details(s);
+    } ITERATE_GL_THREADS_ENDS;
+
 	
 	list_delete(list_ptr,&(s3->link));
-	ITERATE_LIST(list_ptr,student,s);
+	//ITERATE_LIST(list_ptr,student,s);
+	ITERATE_GL_THREADS_BEGIN(list_ptr, student, s){
+
+        print_details(s);
+    } ITERATE_GL_THREADS_ENDS;
+
 	
 	
 	return 0;
