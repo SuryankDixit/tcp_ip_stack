@@ -1,7 +1,7 @@
 #ifndef __GRAPH__
 #define __GRAPH
 
-#include "gluethread/glthread.h"
+#include "glthread.h"
 #include "stddef.h"
 
 #define MAX_INTF_PER_NODE 10
