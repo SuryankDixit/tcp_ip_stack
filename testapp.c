@@ -1,6 +1,6 @@
 #include "graph.h"
 
-extern graph_t *build_first_topo();
+//extern graph_t *build_first_topo();
 
 int main()
 {
