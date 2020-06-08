@@ -26,6 +26,8 @@ node_t *create_graph_node(graph_t *graph,char *name)
 	strncpy(node->node_name,name,NODE_NAME_SIZE);
 	node->node_name[NODE_NAME_SIZE-1]= '\0';
 	
+	init_node_nw_prop(&(node->node_nw_prop));		//initializing network nodes.
+	
 	// initially router has no interface that is holding any link, so initializing with NULL;
 	//initialize_node_interfaces( node);		
 	
@@ -60,6 +62,14 @@ void insert_link_bw_two_nodes(node_t *node1, node_t *node2,char *_from, char *_t
 	
 	empty_interface_slot= get_available_interface(node2);
 	node2->intf[empty_interface_slot] = &link->intf2;
+	
+	//initializing network interface.
+	init_intf_nw_prop(&link->intf1.intf_nw_props);
+	init_intf_nw_prop(&link->intf2.intf_nw_props);
+	
+	/*Now Assign Random generated Mac address to the Interfaces*/
+	interface_assign_mac_address(&link->intf1);
+	interface_assign_mac_address(&link->intf2);
 }
 
 void print_graph(graph_t *graph)
@@ -92,7 +102,7 @@ void print_interface(interface_t *intf)
 	link_t *link=intf->link;
 	node_t *neighbour_node = get_neighbour_node(intf);
 	
-	printf(" Local Node : %s, Interface Name = %s, Neighbour Node %s, cost = %u\n",intf->att_node->node_name,intf->intf_name,
+	printf("Interface Name : %s, Local Node : %s, Neighbour Node : %s, cost = %u\n",intf->intf_name,intf->att_node->node_name,
 	neighbour_node->node_name, link->cost); 
 }
 
