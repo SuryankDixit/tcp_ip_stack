@@ -2,6 +2,7 @@
 #define __GRAPH
 
 #include "glthread.h"
+#include "net.h"
 #include "stddef.h"
 
 #define MAX_INTF_PER_NODE 10
@@ -22,7 +23,8 @@ typedef struct graph_{
 typedef struct node_{						//			 ________|_______________|______________
 	char node_name[NODE_NAME_SIZE];			//			|___|___|___|___|___|___|___|___|___|___|
 	interface_t *intf[MAX_INTF_PER_NODE];	   //POINTER USAGE OF STRUCT:			 |_______|________|
-    	glthread_t graph_glue;									
+    	glthread_t graph_glue;		
+    	node_network_prop_t node_nw_prop;							
 }node_t;
 
 
@@ -30,6 +32,7 @@ typedef struct interface_{
 	char intf_name[IF_NAME_SIZE];
 	node_t *att_node;			// POINTER USAGE OF STRUCT:
 	link_t *link;				// POINTER USAGE OF STRUCT:
+	interface_network_prop_t intf_nw_props;
 }interface_t;
 
 
@@ -63,7 +66,7 @@ graph_t *build_first_topo();
 		node->intf[i]=NULL;
 }*/
 
-static inline int get_available_interface(node_t *node)
+static inline int get_available_interface(node_t *node)	//why inline functions are static?
 {
 	int i;
 	for(i=0;i<MAX_INTF_PER_NODE;i++)
@@ -84,6 +87,20 @@ static inline node_t *get_neighbour_node(interface_t *intf)
         	return link->intf1.att_node;
 }
 
+static inline interface_t *get_interface_by_name(node_t *node, char *interface_name)
+{
+	int i=0;
+	interface_t *interface;
+	for(i=0;i<MAX_INTF_PER_NODE;i++)
+	{
+		interface=node->intf[i];
+		if(!interface) return NULL;
+		if(strncmp(interface_name,interface->intf_name,IF_NAME_SIZE)==0){
+			return interface;
+		}
+	}
+	return NULL;
+}
 
 
 #endif
