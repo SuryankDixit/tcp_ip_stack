@@ -102,7 +102,7 @@ void print_interface(interface_t *intf)
 	link_t *link=intf->link;
 	node_t *neighbour_node = get_neighbour_node(intf);
 	
-	printf("Interface Name : %s, Local Node : %s, Neighbour Node : %s, cost = %u\n",intf->intf_name,intf->att_node->node_name,
+	printf("Interface Name : %s ::\n\t Local Node : %s, Neighbour Node : %s, cost = %u\n",intf->intf_name,intf->att_node->node_name,
 	neighbour_node->node_name, link->cost); 
 }
 
