@@ -63,10 +63,10 @@ void print_network_interface(interface_t *interface)
 	print_interface(interface);
 	
 	if(interface->intf_nw_props.is_ip_configured){
-		printf("IP Address : %s/%d\t",interface->intf_nw_props.ip_add.ip_add,interface->intf_nw_props.mask);
+		printf("\t IP Address : %s/%d\t",interface->intf_nw_props.ip_add.ip_add,interface->intf_nw_props.mask);
 		}
 	else{
-		printf("IP Address : %s/%d\t","NIL",0);
+		printf("\t IP Address : %s/%d\t","NIL",0);
 	}
 	
 	printf("\t MAC : %u:%u:%u:%u:%u:%u\n", 
