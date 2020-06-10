@@ -1,7 +1,7 @@
 #ifndef __GRAPH__
 #define __GRAPH
 
-#include "glthread.h"
+#include "gluethread/glthread.h"
 #include "net.h"
 #include "stddef.h"
 
