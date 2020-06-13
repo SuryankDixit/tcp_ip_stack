@@ -24,7 +24,9 @@ typedef struct node_{						//			 ________|_______________|______________
 	char node_name[NODE_NAME_SIZE];			//			|___|___|___|___|___|___|___|___|___|___|
 	interface_t *intf[MAX_INTF_PER_NODE];	   //POINTER USAGE OF STRUCT:			 |_______|________|
     	glthread_t graph_glue;		
-    	node_network_prop_t node_nw_prop;							
+    	node_network_prop_t node_nw_prop;	
+    	unsigned int udp_port_number;		//Unique Port Number.
+    	int udp_sock_fd;			// Socket file descriptor.		
 }node_t;
 
 
@@ -100,6 +102,19 @@ static inline interface_t *get_interface_by_name(node_t *node, char *interface_n
 		}
 	}
 	return NULL;
+}
+
+static inline node_t * get_node_by_node_name(graph_t *topo, char *node_name){
+
+    node_t *node;
+    glthread_t *curr;    
+
+    ITERATE_GRAPH_BEGINS(&topo->node_list, node){
+
+        if(strncmp(node->node_name, node_name, strlen(node_name)) == 0)
+            return node;
+    } ITERATE_GRAPH_ENDS;
+    return NULL;
 }
 
 

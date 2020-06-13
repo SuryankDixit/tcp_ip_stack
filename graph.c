@@ -28,6 +28,8 @@ node_t *create_graph_node(graph_t *graph,char *name)
 	
 	init_node_nw_prop(&(node->node_nw_prop));		//initializing network nodes.
 	
+	init_udp_socket(node);					//initializing socket for each node by assigning unique port number.
+	
 	// initially router has no interface that is holding any link, so initializing with NULL;
 	//initialize_node_interfaces( node);		
 	

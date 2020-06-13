@@ -2,6 +2,8 @@
 #include "graph.h"
 #include <stdio.h>
 
+extern void network_start_pkt_receiver_thread(graph_t *topo);
+
 graph_t *build_first_topo()
 {
 
@@ -47,6 +49,8 @@ graph_t *build_first_topo()
         node_set_loopback_address(node_R2, "122.1.1.2");
     	node_set_interface_ip_address(node_R2, "eth0/3", "30.1.1.2", 24);
     	node_set_interface_ip_address(node_R2, "eth0/5", "40.1.1.2", 24);
+    	
+    	network_start_pkt_receiver_thread(topo);	// this function starts listening on the UDP-Sockets.
 	
 	return topo;
 }
