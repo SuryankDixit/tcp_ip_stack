@@ -5,6 +5,8 @@
 //extern graph_t *build_first_topo();
 graph_t *topo=NULL;
 
+
+
 int main()
 {
 	network_init_cli();
