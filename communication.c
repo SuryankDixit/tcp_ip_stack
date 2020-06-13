@@ -138,6 +138,7 @@ int pkt_receive(node_t *node, 		// Actual representation of a node receiving pac
     
     printf("Message Received: %s\nNode: %s\nInterface: %s\n",pkt,node->node_name,interface->intf_name);
     
+    
     return 0;
 } 
 
