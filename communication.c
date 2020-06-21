@@ -1,6 +1,7 @@
 
 #include "communication.h"
 #include "graph.h"
+//#include "Layer2/layer2.h"
 #include <sys/socket.h>
 #include <pthread.h>
 #include <netinet/in.h>
@@ -69,6 +70,13 @@ static int _send_pkt_out(int sock_fd, char *pkt_data, unsigned int pkt_size, uns
 
     int rc;
     struct sockaddr_in dest_addr;
+    
+    /*ethernet_hdr_t *ethernet_hdr = (ethernet_hdr_t *)pkt_data;
+    arp_hdr_t *arp_hdr = (arp_hdr_t *)(ethernet_hdr->payload);
+    printf("%d\n",arp_hdr->op_code);
+    */
+    
+    pkt_data= (char* )pkt_data;
    
     struct hostent *host = (struct hostent *) gethostbyname("127.0.0.1"); 	//loopback IP;
     dest_addr.sin_family = AF_INET;										
@@ -128,16 +136,25 @@ int send_pkt_out(char *pkt, unsigned int pkt_size, interface_t *interface){
 
 //ENTRY POINT INTO DATA LINK LAYER FROM THE PHYSICAL LAYER;
  
+extern void layer2_frame_recv(node, interface, pkt, pkt_size ); //for scope of the functio in this file.
+ 
 int pkt_receive(node_t *node, 		// Actual representation of a node receiving packet from neighbouring node
 		interface_t *interface,
             	char *pkt, 
             	unsigned int pkt_size){
 
+    
+    //printf("Message Received: %s\nNode: %s\nInterface: %s\n",pkt,node->node_name,interface->intf_name);
+    
+    /*
+    Make room in the packet buffer by shifting the data toward right so that tcp/ip stack can append more hdrs to the packet 
+    as required 
+    */
+      
+    pkt = pkt_buffer_shift_right(pkt, pkt_size, MAX_PACKET_BUFFER_SIZE - IF_NAME_SIZE);			//defined in net.c
+    
     /*Do further processing of the pkt here*/
-    //layer2_frame_recv(node, interface, pkt, pkt_size );
-    
-    printf("Message Received: %s\nNode: %s\nInterface: %s\n",pkt,node->node_name,interface->intf_name);
-    
+    layer2_frame_recv(node, interface, pkt, pkt_size );		//defined in layer2.c 
     
     return 0;
 } 
