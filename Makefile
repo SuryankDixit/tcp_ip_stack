@@ -6,7 +6,9 @@ OBJS=gluethread/glthread.o			 \
                   topologies.o		 \
                   net.o			 \
                   networkcli.o		 \
-                  communication.o
+                  communication.o		 \
+                  Layer2/layer2.o		 \
+                  utils.o
                   
 test.exe:testapp.o ${OBJS} CommandParser/libcli.a
 	gcc -g testapp.o ${OBJS} -o test.exe ${LIBS}
@@ -26,6 +28,10 @@ networkcli.o:networkcli.c
 	gcc -g -c -I . networkcli.c -o networkcli.o
 communication.o:communication.c
 	gcc -g -c -I . communication.c -o communication.o
+Layer2/layer2.o:Layer2/layer2.c
+	gcc -g -c -I . Layer2/layer2.c -o Layer2/layer2.o
+utils.o:utils.c
+	gcc -g -c -I . utils.c -o utils.o
 CommandParser/libcli.a:
 	(cd CommandParser; make)
 
@@ -33,6 +39,7 @@ clean:
 	rm *.o
 	rm gluethread/glthread.o
 	rm *exe
+	rm Layer2/*.o
 	(cd CommandParser; make clean)
 all:
 	make
