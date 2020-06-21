@@ -30,7 +30,7 @@ void layer2_frame_recv(node_t *node, interface_t *interface,char *pkt, unsigned 
                     	printf("hello1\n");
                         process_arp_broadcast_request(node, interface, ethernet_hdr);
                         break;
-                    case 0:
+                    case ARP_REPLY:
                     	printf("hello2\n");
                         process_arp_reply_msg(node, interface, ethernet_hdr);
                         break;
@@ -107,7 +107,7 @@ void arp_table_update_from_arp_reply( arp_table_t *arp_table,
 	*/
 	
 	unsigned int src_ip;
-	assert( arp_hdr->op_code == 0);
+	assert( arp_hdr->op_code == ARP_REPLY);
 	arp_entry_t *arp_entry = calloc(1,sizeof(arp_entry_t));
 	
 	src_ip = htonl(arp_hdr->src_ip);
