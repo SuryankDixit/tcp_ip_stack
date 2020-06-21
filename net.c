@@ -103,5 +103,130 @@ void print_network_graph(graph_t *graph)
 	}ITERATE_GRAPH_ENDS;
 }
 
+char* pkt_buffer_shift_right(char *pkt,unsigned int pkt_size, unsigned int total_buffer_size)
+{
+	 char *temp = NULL;
+	 bool_t need_temp_memory = FALSE;
 
+	    if(pkt_size * 2 > total_buffer_size){
+		need_temp_memory = TRUE;
+	    }
+	    
+	    if(need_temp_memory){
+		temp = calloc(1, pkt_size);
+		memcpy(temp, pkt, pkt_size);
+		memset(pkt, 0, total_buffer_size);
+		memcpy(pkt + (total_buffer_size - pkt_size), temp, pkt_size);
+		free(temp);
+		return pkt + (total_buffer_size - pkt_size);
+	    }
+	    
+	    memcpy(pkt + (total_buffer_size - pkt_size), pkt, pkt_size);
+	    memset(pkt, 0, pkt_size);
+	    return pkt + (total_buffer_size - pkt_size);
+}
+
+//interface_t *node_get_matching_subnet_interface(node_t *node, char *ip_addr){
+
+    /*int i = 0;
+    interface_t *intf;
+
+    char intf_addr[16];
+    /*char mask;
+    char intf_subnet[16];
+    char subnet2[16];*/
+    
+	/*printf("HII-subnet\n");
+	
+	int j;
+	for(j=0;j<strlen(ip_addr);j++)
+		printf("%c",ip_addr[j]);
+	printf("\n");
+	//printf("\n %s->\n",*ip_addr);
+    for( ; i < MAX_INTF_PER_NODE; i++){
+    
+        intf = node->intf[i];
+        if(!intf) return NULL;
+
+        if(intf->intf_nw_props.is_ip_configured == FALSE)
+            continue;
+        
+        strncpy(intf_addr,intf->intf_nw_props.ip_add.ip_add,16);
+        
+        for(j=0;j<strlen(intf_addr);j++)
+		printf("%c",intf_addr[j]);
+	printf("\n");
+        
+        //printf("%s\n",*intf_addr);
+       /* mask = intf->intf_nw_props.mask;
+
+        memset(intf_subnet, 0 , 16);
+        memset(subnet2, 0 , 16);
+        apply_mask(intf_addr, mask, intf_subnet);
+        apply_mask(ip_addr, mask, subnet2);*/
+        
+        /*if(strcmp(intf_addr, ip_addr) == 0)
+            return intf;
+    }*/
+   /* unsigned int i = 0;
+    interface_t *intf;
+
+    char *intf_addr = NULL;
+    char mask;
+    char intf_subnet[16];
+    char subnet2[16];
+
+    for( ; i < MAX_INTF_PER_NODE; i++){
+    
+        intf = node->intf[i];
+        if(!intf) return NULL;
+
+        if(intf->intf_nw_props.is_ip_configured == FALSE)
+            continue;
+        
+        intf_addr = intf->intf_nw_props.ip_add.ip_add;
+        mask = intf->intf_nw_props.mask;
+
+        memset(intf_subnet, 0 , 16);
+        memset(subnet2, 0 , 16);
+        apply_mask(intf_addr, mask, intf_subnet);
+        apply_mask(ip_addr, mask, subnet2);
+        
+        if(strncmp(intf_subnet, subnet2, 16) == 0)
+            return intf;
+    }
+}*/
+
+interface_t *
+node_get_matching_subnet_interface(node_t *node, char *ip_addr){
+
+    unsigned int i = 0;
+    interface_t *intf;
+
+    char *intf_addr = NULL;
+    char mask;
+    char intf_subnet[16];
+    char subnet2[16];
+
+    for( ; i < MAX_INTF_PER_NODE; i++){
+    
+        intf = node->intf[i];
+        if(!intf) return NULL;
+
+        if(intf->intf_nw_props.is_ip_configured == FALSE)
+            continue;
+        
+        intf_addr = intf->intf_nw_props.ip_add.ip_add;
+        mask = intf->intf_nw_props.mask;
+
+        memset(intf_subnet, 0 , 16);
+        memset(subnet2, 0 , 16);
+        apply_mask(intf_addr, mask, intf_subnet);
+        apply_mask(ip_addr, mask, subnet2);
+        
+        if(strncmp(intf_subnet, subnet2, 16) == 0){
+            return intf;
+        }
+    }
+}
 
