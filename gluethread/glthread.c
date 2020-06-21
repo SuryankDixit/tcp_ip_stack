@@ -27,3 +27,25 @@ void add_node_front(glthread_t *head, glthread_t *node)
 	temp->left=node;
 	return;
 }
+
+void delete_node(glthread_t *curr_glthread)
+{
+	if(!curr_glthread->left){
+        if(curr_glthread->right){
+            curr_glthread->right->left = NULL;
+            curr_glthread->right = 0;
+            return;
+        }
+        return;
+    }
+    if(!curr_glthread->right){
+        curr_glthread->left->right = NULL;
+        curr_glthread->left = NULL;
+        return;
+    }
+
+    curr_glthread->left->right = curr_glthread->right;
+    curr_glthread->right->left = curr_glthread->left;
+    curr_glthread->left = 0;
+    curr_glthread->right = 0;
+}
