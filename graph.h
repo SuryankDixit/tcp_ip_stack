@@ -61,6 +61,8 @@ int find_empty_slot(interface_t *intf);
 
 graph_t *build_first_topo();
 
+graph_t *build_linear_topo();
+
 /*inline void initialize_node_interfaces(node_t *node)
 {
 	int i;
