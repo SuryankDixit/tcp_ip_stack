@@ -3,7 +3,7 @@
 
 
 #define offsetof(struct_name, field_name)   \
-    ((int)&((struct_name *)0)->field_name)
+    (char *)&(((struct_name *)0)->field_name)
 
 
 typedef struct glthread_{
