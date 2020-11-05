@@ -1,3 +1,4 @@
+
 #include "CommandParser/libcli.h"	// header files that support libcli library
 #include "CommandParser/cmdtlv.h"
 #include "cmdcodes.h"
@@ -40,7 +41,6 @@ int show_network_topology_handler(param_t *param,
 typedef struct arp_table_ arp_table_t;
 extern void
 print_arp_table(arp_table_t *arp_table);
-
 static int show_arp_handler(param_t *param, ser_buff_t *tlv_buf, 
                     op_mode enable_or_disable){
 
@@ -58,6 +58,30 @@ static int show_arp_handler(param_t *param, ser_buff_t *tlv_buf,
     node = get_node_by_node_name(topo, node_name);
     print_arp_table(node->node_nw_prop.arp_table);    
     return 0;
+}
+
+typedef struct mac_table_ mac_table_t;
+extern void
+dump_mac_table(mac_table_t *mac_table);
+static int
+show_mac_handler(param_t *param, ser_buff_t *tlv_buf,
+                    op_mode enable_or_disable){
+
+    node_t *node;
+    char *node_name;
+    tlv_struct_t *tlv = NULL;
+    
+    TLV_LOOP_BEGIN(tlv_buf, tlv){
+
+        if(strncmp(tlv->leaf_id, "node-name", strlen("node-name")) ==0)
+            node_name = tlv->value;
+
+    }TLV_LOOP_END;
+
+    node = get_node_by_node_name(topo, node_name);
+    dump_mac_table(NODE_MAC_TABLE(node));
+    return 0;
+
 }
 
 

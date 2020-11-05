@@ -89,5 +89,9 @@ void process_arp_reply_msg(node_t *node, interface_t *iif,ethernet_hdr_t *ethern
 void process_arp_broadcast_request(node_t *node, interface_t *iif, ethernet_hdr_t *ethernet_hdr);
 
 
+/*APIs to be used to create topologies*/
+void
+node_set_intf_l2_mode(node_t *node, char *intf_name, intf_l2_mode_t intf_l2_mode);
+
 #endif
 

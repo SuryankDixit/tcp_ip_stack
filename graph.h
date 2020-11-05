@@ -27,7 +27,8 @@ typedef struct node_{						//			 ________|_______________|______________
     	node_network_prop_t node_nw_prop;	
     	unsigned int udp_port_number;		//Unique Port Number.
     	int udp_sock_fd;			// Socket file descriptor.		
-}node_t;
+};
+GLTHREAD_TO_STRUCT(graph_glue_to_node, node_t, graph_glue);
 
 
 typedef struct interface_{
@@ -111,8 +112,9 @@ static inline node_t * get_node_by_node_name(graph_t *topo, char *node_name){
     node_t *node;
     glthread_t *curr;    
 
-    ITERATE_GRAPH_BEGINS(&topo->node_list, node){
+    ITERATE_GRAPH_BEGINS(&topo->node_list, curr){
 
+		node = graph_glue_to_node(curr);
         if(strncmp(node->node_name, node_name, strlen(node_name)) == 0)
             return node;
     } ITERATE_GRAPH_ENDS;

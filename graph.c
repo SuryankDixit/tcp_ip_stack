@@ -79,8 +79,9 @@ void print_graph(graph_t *graph)
 	printf("Topology Name: %s\n",graph->topology_name);
 	node_t *node=NULL;
 	glthread_t *curr=NULL;
-	ITERATE_GRAPH_BEGINS(&(graph->node_list),node)
+	ITERATE_GRAPH_BEGINS(&(graph->node_list),curr)
 	{
+		node = graph_glue_to_node(curr);
 		print_node(node);
 	}ITERATE_GRAPH_ENDS;
 }

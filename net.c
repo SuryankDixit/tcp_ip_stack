@@ -97,8 +97,9 @@ void print_network_graph(graph_t *graph)
 	printf("Topology Name: %s\n",graph->topology_name);
 	node_t *node=NULL;
 	glthread_t *curr=NULL;
-	ITERATE_GRAPH_BEGINS(&(graph->node_list),node)
+	ITERATE_GRAPH_BEGINS(&(graph->node_list),curr)
 	{
+        node = graph_glue_to_node(curr);
 		print_network_node(node);
 	}ITERATE_GRAPH_ENDS;
 }
@@ -229,4 +230,3 @@ node_get_matching_subnet_interface(node_t *node, char *ip_addr){
         }
     }
 }
-

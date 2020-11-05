@@ -8,7 +8,8 @@ OBJS=gluethread/glthread.o			 \
                   networkcli.o		 \
                   communication.o		 \
                   Layer2/layer2.o		 \
-                  utils.o
+                  utils.o				\
+				  Layer2/l2switch.o
                   
 test.exe:testapp.o ${OBJS} CommandParser/libcli.a
 	gcc -g testapp.o ${OBJS} -o test.exe ${LIBS}
@@ -30,6 +31,8 @@ communication.o:communication.c
 	gcc -g -c -I . communication.c -o communication.o
 Layer2/layer2.o:Layer2/layer2.c
 	gcc -g -c -I . Layer2/layer2.c -o Layer2/layer2.o
+Layer2/l2switch.o:Layer2/l2switch.c
+	gcc -g -c -I . Layer2/l2switch.c -o Layer2/l2switch.o
 utils.o:utils.c
 	gcc -g -c -I . utils.c -o utils.o
 CommandParser/libcli.a:

@@ -7,6 +7,7 @@
 // declaring because this filr don't know about these structures
 typedef struct node_ node_t;
 typedef struct interface_ interface_t;
+typedef struct glthread_ glthread_t;
 
 /* API to send the packet out of the interface.
  * Nbr node must receieve the packet on other end
@@ -19,7 +20,8 @@ int pkt_receive(node_t *node, interface_t *interface,
 
 /* API to flood the packet out of all interfaces
  * of the node*/
-//int send_pkt_flood(node_t *node, char *pkt, unsigned int pkt_size);
-
+ int
+send_pkt_flood(node_t *node, interface_t *exempted_intf, 
+                char *pkt, unsigned int pkt_size);
 
 #endif

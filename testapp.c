@@ -2,7 +2,9 @@
 #include <stdio.h>
 #include "CommandParser/libcli.h"
 
-//extern graph_t *build_first_topo();
+extern graph_t *build_first_topo();
+extern graph_t *build_simple_l2_switch_topo();
+extern void nw_init_cli();
 graph_t *topo=NULL;
 
 
@@ -10,7 +12,9 @@ graph_t *topo=NULL;
 int main()
 {
 	network_init_cli();
-	topo = build_first_topo();
+	// topo = build_linear_topo();
+	topo = build_simple_l2_switch_topo();
+	print_graph(topo);
 	
 	/*sleep(2);	// giving some time to start the thread;
 	

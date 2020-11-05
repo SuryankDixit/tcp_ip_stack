@@ -1,20 +1,3 @@
-/*
- * =====================================================================================
- *
- *       Filename:  cmd_hier.c
- *
- *    Description:  This file defines the structure for maintaining cmd hierarchy
- *
- *        Version:  1.0
- *        Created:  Thursday 03 August 2017 02:12:46  IST
- *       Revision:  1.0
- *       Compiler:  gcc
- *
- *         Author:  Er. Abhishek Sagar, Networking Developer (AS), sachinites@gmail.com
- *        Company:  Brocade Communications(Jul 2012- Mar 2016), Current : Juniper Networks(Apr 2017 - Present)
- *
- * =====================================================================================
- */
 
 #include <string.h>
 #include <stdio.h>

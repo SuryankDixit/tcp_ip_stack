@@ -199,8 +199,10 @@ static void * _network_start_pkt_receiver_thread(void *arg){		//void *_network_s
     
     struct sockaddr_in sender_addr;
     
-    ITERATE_GRAPH_BEGINS(&topo->node_list, node){
+    ITERATE_GRAPH_BEGINS(&topo->node_list, curr){
 
+        node = graph_glue_to_node(curr);
+        
         if(!node->udp_sock_fd) 		//checking whether socket_descriptor exist or not,
             continue;
 
@@ -221,8 +223,10 @@ static void * _network_start_pkt_receiver_thread(void *arg){		//void *_network_s
         Select system call remains blocked until any of the file descriptor is not set. Once any one or more than one file descriptor gets 	 set,select system call unblocks and execute the remaining code;
         */
 
-        ITERATE_GRAPH_BEGINS(&topo->node_list, node){	// starts checking which descriptor has received the request:
+        ITERATE_GRAPH_BEGINS(&topo->node_list, curr){	// starts checking which descriptor has received the request:
 
+            node = graph_glue_to_node(curr);
+            
             if(FD_ISSET(node->udp_sock_fd, &active_sock_fd_set)){	// checking whether descriptor is activated or not.
     
                 memset(recv_buffer, 0, MAX_PACKET_BUFFER_SIZE);
@@ -255,5 +259,25 @@ network_start_pkt_receiver_thread(graph_t *topo){
     			&attr, 				//
         	        _network_start_pkt_receiver_thread,  //A function to run in the thread. The function must return void * and take a 								void * argument. parameter is a function pointer.
                     	(void *)topo	);		// a pointer to the data that function will receive.
+}
+
+int
+send_pkt_flood(node_t *node, interface_t *exempted_intf, 
+                char *pkt, unsigned int pkt_size){
+
+    unsigned int i = 0;
+    interface_t *intf; 
+
+    for( ; i < MAX_INTF_PER_NODE; i++){
+
+        intf = node->intf[i];
+        if(!intf) return 0;
+
+        if(intf == exempted_intf)
+            continue;
+
+        send_pkt_out(pkt, pkt_size, intf);
+    }
+    return 0;
 }
 
